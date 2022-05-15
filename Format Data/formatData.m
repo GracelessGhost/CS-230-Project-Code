@@ -169,16 +169,6 @@ legend('Pos', 'Saccades')
 
 beep
 
-%% Other
-
-durations = saccades(:, 2) - saccades(:, 1);
-figure
-histogram(durations)
-
-xlabel('Duration (ms)')
-ylabel('Frequency')
-title('Saccade Durations')
-
 %% Save
 
 X = magnetPos';
@@ -186,8 +176,12 @@ Y = ~isnan(saccadesInContext)';
 axes(ax1_1)
 Y = categorical(Y, [0, 1], {'Non-saccade', 'Saccade'});
 
-save(filename + "_data", 'X', 'Y')
+save(filename + "_data.mat", 'X', 'Y')
 save(filename + "_saccades.mat", 'saccades', 'artifacts', 'isUsingCali', 'customScaleCh1', 'customScaleCh2', 'isRemovingSegment', 'removeTime')
+
+save('X.mat', 'X')
+Y = zeros(size(X));
+save('Y.mat', 'Y')
 
 end
 
