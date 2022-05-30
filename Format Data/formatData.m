@@ -9,7 +9,7 @@ for the eye position data.
 
 (3) Run this program. It will use a thresholding algorithm to detect the
 saccades, and then spit out a data.mat file that contains an X vector (eye
-position) and a Y vector (labels for saccade vs. non-saccade).
+position) and an L vector (labels of 0 and 1 for non-saccade vs. saccade).
 %}
 
 %% Options
@@ -37,9 +37,6 @@ for i = 1:length(matFiles)
         saccadeFile = matFiles(i);
     end
 end
-if isUsingCali && ~exist('caliFile', 'var')
-    error('Make sure this .m file is in the same directory as the cali.mat file');
-end
 
 % Check for .smr file
 if isempty(dir('*.smr'))
@@ -49,6 +46,9 @@ end
 % Load mat files
 if isUsingSaccades
     load(saccadeFile.name);
+end
+if isUsingCali && ~exist('caliFile', 'var')
+    error('Make sure this .m file is in the same directory as the cali.mat file');
 end
 if isUsingCali
     load(caliFile.name, 'scaleCh1', 'scaleCh2');
@@ -171,17 +171,11 @@ beep
 
 %% Save
 
+save(filename + "_saccades.mat", 'saccades', 'artifacts', 'isUsingCali', 'customScaleCh1', 'customScaleCh2', 'isRemovingSegment', 'removeTime', 'isCropping', 'cropTime')
+
 X = magnetPos';
-Y = ~isnan(saccadesInContext)';
-axes(ax1_1)
-Y = categorical(Y, [0, 1], {'Non-saccade', 'Saccade'});
-
-save(filename + "_data.mat", 'X', 'Y')
-save(filename + "_saccades.mat", 'saccades', 'artifacts', 'isUsingCali', 'customScaleCh1', 'customScaleCh2', 'isRemovingSegment', 'removeTime')
-
-save('X.mat', 'X')
-Y = zeros(size(X));
-save('Y.mat', 'Y')
+L = ~isnan(saccadesInContext)';
+save(filename + "_data.mat", 'X', 'L')
 
 end
 
@@ -269,6 +263,7 @@ function datout = extendSaccadesToThres(saccades, pos, thres)
         datout(i, 1) = start;
         datout(i, 2) = stop;
     end
+    datout = unique(datout, 'rows');
 end
 
 function datout = putInContext(saccades, pos, isMerged)
