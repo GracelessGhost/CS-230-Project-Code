@@ -119,10 +119,10 @@ class DNN():
         Labels = Labels_mc
 
         # data shuffling 
-        randind = np.random.permutation(n_samples)
-        X = X[randind, :]
-        Y = Y[randind, :]
-        Labels = Labels[randind, :]
+        # randind = np.random.permutation(n_samples)
+        # X = X[randind, :]
+        # Y = Y[randind, :]
+        # Labels = Labels[randind, :]
 
         # check if number of timebins is multiple of the maxpooling kernel size squared, otherwise cut:
         n_time2 = X.shape[1]
@@ -141,6 +141,16 @@ class DNN():
         Xtrain = X[n_validation:, :]
         Ytrain = Y[n_validation:, :]
         Ltrain = Labels[n_validation:, :]
+
+        # data shuffling
+        randind = np.random.permutation(Xval.shape[0])
+        Xval = Xval[randind, :]
+        Yval = Yval[randind, :]
+        Lval = Lval[randind, :]
+        randind = np.random.permutation(Xtrain.shape[0])
+        Xtrain = Xtrain[randind, :]
+        Ytrain = Ytrain[randind, :]
+        Ltrain = Ltrain[randind, :]
 
         if self.augmentation == True:
             # data augmentation: signal rotation

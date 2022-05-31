@@ -75,18 +75,11 @@ LPred = classify(net, XTest);
 XTestPlot = cat(2, XTest{1:100});
 LTestPlot = cat(2, LTest{1:100});
 LPredPlot = cat(2, LPred{1:100});
+
 figure
 tiledlayout(2, 1)
+
 ax1 = nexttile;
-hold on
-plot(LTestPlot, '.-')
-plot(LPredPlot)
-
-xlabel('Time step')
-title('Predicted Classes')
-legend('Ground truth', 'Predicted')
-
-ax2 = nexttile;
 hold on
 for i = 1:numel(classes)
     label = classes{i};
@@ -104,7 +97,18 @@ xlabel('Time (ms)')
 ylabel('Position (deg)')
 title('Ground Truth')
 legend(classes)
+ylim([-30, 30])
+
+ax2 = nexttile;
+hold on
+plot(LTestPlot, '.-')
+plot(LPredPlot)
+
+xlabel('Time step')
+title('Predicted Classes')
+legend('Ground truth', 'Predicted')
 linkaxes([ax1, ax2], 'x')
+xlim([62000, 68000])
 
 %% Evaluation
 
