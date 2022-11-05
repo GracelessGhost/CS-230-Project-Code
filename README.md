@@ -1,4 +1,4 @@
-# cs-230-project-code
+# Deep Saccade Detection
  
 This repository contains my code for the final project of Stanford's CS 230 - Deep Learning course.
 
