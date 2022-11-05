@@ -1,6 +1,8 @@
 # deep-saccade-detection
+
+An LSTM network and a convolutional neural network designed to classify eye movements as saccades vs. non-saccades.
  
-This repository contains my code for the final project of Stanford's CS 230 - Deep Learning course.
+Final project of Stanford's CS 230 - Deep Learning course.
 
 The most relevant scripts that I wrote are:
 
